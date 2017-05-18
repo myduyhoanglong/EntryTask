@@ -16,6 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from EntryTask.views import getPerson, addPerson, listPerson, login_form, sign_up_form
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^login-form/$', login_form),
+    url(r'^login/$', getPerson),
+    url(r'^signup-form/$', sign_up_form),
+    url(r'^signup/$', addPerson),
+    url(r'^list/$', listPerson),
 ]
