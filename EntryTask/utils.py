@@ -1,50 +1,58 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.http import JsonResponse
+
 from person.models import Person
+from EntryTask import forms
 import random, hashlib, binascii
 
-def createPerson(request):
-    if 'username' not in request or 'password' not in request or 'email' not in request or request['username'] == '' or request['password'] == '' or request['email'] == '':
-        raise Exception('Invalid input form.')
+def createError(text):
+    return HttpResponse(text)
 
-    _username = request['username']
-    _email = request['email']
+def createResponse(response):
+    return JsonResponse(response)
 
-    if Person.objects.filter(username=_username):
-        raise Exception('Username has been taken.')
-    if Person.objects.filter(email=_email):
-        raise Exception('Email has been taken.')
-
-    _salt = __getRandomString__()
-    _password = __hashPassword__(request['password'], _salt)
-
-    person = Person(username=_username, salt=_salt, password=_password, email=_email)	
-    person.save()
-
-    return person
-
-def getPerson(request):
-    if 'username' not in request or 'password' not in request or request['username'] == '' or request['password'] == '':
-        raise Exception('Invalid input form.')
-    
-    _username = request['username']
-    _password = request['password']
-
-    personList = list(Person.objects.filter(username=_username))
-    if len(personList) == 0:
-        raise Exception('Username does not exist.')
-
-    person = personList[0]
-    if __hashPassword__(_password, person.salt) != person.password:
-        raise Exception('Incorrect password.')
-
-    return person
-
-#----------------------------------
-
-def __getRandomString__():
+def getRandomString():
     ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' 
-    return "".join(random.choice(ALPHABET) for i in range(16))
+    return "".join(random.choice(ALPHABET) for i in range(64))
 
-def __hashPassword__(plainPassword, salt):
+def hashPassword(plainPassword, salt):
     return binascii.hexlify(hashlib.pbkdf2_hmac('sha256', plainPassword, salt, 100000))
+
+def displayMeta(request):
+    values = request.META.items()
+    values.sort()
+    html = []
+    for k, v in values:
+        html.append('<tr><td>%s</td><td>%s</td></tr>' % (k, v))
+    return HttpResponse('<table>%s</table>' % '\n'.join(html))
+
+def index(request):
+    return render(request, 'base.html')
+
+def displayForm(request, formType, event_id=0):
+    if formType == 'login':
+        form = forms.LoginForm()
+        return generateForm(request, 'form.html', '/auth/login/', form, 'Login', 'get')
+    if formType == 'signup':
+        form = forms.SignupForm()
+        return generateForm(request, 'form.html', '/auth/signup/', form, 'SignUp', 'post')
+    if formType == 'search':
+        form = forms.SearchForm()
+        return generateForm(request, 'form_logined.html', '/event/list/', form, 'Search', 'get')
+    if formType == 'comment':
+        form = forms.CommentForm()
+        if event_id == 0:
+           createError('Incorrect event id.') 
+        action = '/event/' + str(event_id) + '/act/comment/'
+        return generateForm(request, 'form_logined.html', action, form, 'Comment', 'post')
+
+def generateForm(request, template, action, form, value, method):
+    return render(request, template, {'action': action, 'form': form, 'value': value, 'method': method})
+
+def displayAll(request):
+    personList = list(Person.objects.all())
+    html = 'first'
+    for person in personList:
+        html += str(person) + person.password + '\n'
+    return HttpResponse(html)

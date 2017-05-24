@@ -1,0 +1,9 @@
+{% extends "main.html" %}
+
+{% block content %}
+<p>{{ comments|length }} &nbsp; comments</p>
+{% for cmt in comments %}
+<p>{{ cmt.person.username }}: &nbsp; {{ cmt.content }}</p>
+{% endfor %}
+<p><a href="/form/comment/{{ event.id }}/">Comment</a></p>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "main.html" %}
+
+{% block content %}
+<p>{{ participations|length }} &nbsp; participants</p>
+{% for pct in participations %}
+{{ pct.person.username }}, &nbsp;
+{% endfor %}
+
+<p><a href="/event/{{ event.id }}/act/participate">Participate</a></p>
+{% endblock %}

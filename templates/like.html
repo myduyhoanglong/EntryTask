@@ -1,0 +1,9 @@
+{% extends "main.html" %}
+
+{% block content %}
+<p>{{ likes|length }} &nbsp; likes</p>
+{% for like in likes %}
+{{ like.person.username }}, &nbsp;
+{% endfor %}
+<p><a href="/event/{{ event.id }}/act/like">Like</a></p>
+{% endblock %}

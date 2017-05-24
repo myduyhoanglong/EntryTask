@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+{% block title %} Events {% endblock %}
+{% block content %}
+<table>
+{% for event in events%}
+<p><b>{{ event.id }}.{{ event.title }}</b></p>
+<p>Description: {{ event.description }}</p>
+<p>Location: {{ event.location }}</p>
+<p>From: {{ event.startDateTime }}</p>
+<p>To: {{ event.endDateTime }}</p>
+<a href="/event/{{ event.id }}/like/">Like</a>
+&nbsp;
+<a href="/event/{{ event.id }}/comment/">Comment</a>
+&nbsp;
+<a href="/event/{{ event.id }}/participate/">Participate</a>
+{% endfor %}
+</table>
+{% endblock %}

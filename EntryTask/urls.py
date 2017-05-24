@@ -13,16 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
+from django.conf.urls.static import static
+from django.conf import settings
 from django.contrib import admin
 
-from EntryTask.views import signup, login, sign_up_form, main, login_form, listPerson
+from utils import displayForm, displayAll, index
 
 urlpatterns = [
-    url(r'^login-form/$', login_form),
-    url(r'^login/$', login),
-    url(r'^main/$', main),
-    url(r'^signup-form/$', sign_up_form),
-    url(r'^signup/$', signup),
-    url(r'^list/$', listPerson),
-]
+    url(r'^$', index),
+    url(r'^form/([A-z]+)/$', displayForm),
+    url(r'^form/([A-z]+)/([0-9]+)/$', displayForm),
+    url(r'^auth/', include('authenticator.urls')),
+    url(r'^event/', include('event.urls')),
+    url(r'^all/$', displayAll),
+    url(r'^admin/', include(admin.site.urls)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
