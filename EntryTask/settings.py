@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'person',
     'event', 
+    'person',
     'authenticator', 
 ]
 
@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'EntryTask.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'WebDatabase',
+        'NAME': 'EntryTask',
 		'USER': 'kj',
 		'PASSWORD': '54321',
 		'HOST': 'localhost',

@@ -16,9 +16,11 @@ class SearchForm(forms.Form):
     location = forms.CharField(max_length=100, required=False)
     start = forms.DateTimeField(required=False, widget=forms.DateTimeInput)
     end = forms.DateTimeField(required=False)
+
     channels = forms.MultipleChoiceField(required=False,
             choices=[(c.id, unicode(c)) for c in Channel.objects.all()],
             widget=forms.CheckboxSelectMultiple)
 
 class CommentForm(forms.Form):
     content = forms.CharField()
+

@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 
 from person.models import Person
+from event.models import Channel
 from EntryTask import forms
 import random, hashlib, binascii
 
@@ -39,7 +40,7 @@ def displayForm(request, formType, event_id=0):
         return generateForm(request, 'form.html', '/auth/signup/', form, 'SignUp', 'post')
     if formType == 'search':
         form = forms.SearchForm()
-        return generateForm(request, 'form_logined.html', '/event/list/', form, 'Search', 'get')
+        return generateForm(request, 'form_logined.html', '/event/list', form, 'Search', 'get')
     if formType == 'comment':
         form = forms.CommentForm()
         if event_id == 0:

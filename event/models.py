@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django import forms
 from django.db import models
 from django.contrib import admin
 from person.models import Person
@@ -20,7 +21,7 @@ class Event(models.Model):
     startDateTime = models.DateTimeField()
     endDateTime = models.DateTimeField()
     createdTime = models.DateTimeField(auto_now_add=True)
-    photo = models.ImageField(upload_to='images/%Y/%m/',max_length=300)
+    photo = models.ImageField(upload_to='images/%Y/%m/',max_length=300, blank=True)
     channels = models.ManyToManyField(Channel)
 
     class Meta:
@@ -44,8 +45,15 @@ class Comment(models.Model):
     content = models.TextField()
     commentedTime = models.DateTimeField(auto_now=True)
 
+class EventAdminForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = '__all__'
+        widget = { 'channels': forms.CheckboxSelectMultiple }
+
 class EventAdmin(admin.ModelAdmin):
     list_filter = ('title', 'location', 'startDateTime', 'endDateTime', 'channels')
+    form = EventAdminForm
 
 admin.site.register(Event, EventAdmin)
 admin.site.register(Channel)

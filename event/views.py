@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.utils.dateparse import parse_datetime
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from event.models import Event, Channel, Like, Comment, Participation
+from event.models import Event, Like, Comment, Participation, Channel
+from event.models import Event, Like, Comment, Participation
 from EntryTask import utils
 
 # Create your views here.
@@ -43,10 +45,29 @@ def getEvents(request):
     else:
         eventList = list(events)
 
+    eventPaginator = Paginator(eventList, 10)
+    page = request.GET.get('page', '')
+    eventList = []
+    try:
+        eventList = eventPaginator.page(page)
+    except PageNotAnInteger:
+        eventList = eventPaginator.page(1)
+    except EmptyPage:
+        eventList = eventPaginator.page(eventPaginator.num_pages)
+
     return render(request, 'events.html', {'events': eventList})
 
 def getAllEvents(request):
-    eventList = list(Event.objects.all())
+    eventPaginator = Paginator(Event.objects.all(), 10)
+    page = request.GET.get('page', '')
+    eventList = []
+    try:
+        eventList = eventPaginator.page(page)
+    except PageNotAnInteger:
+        eventList = eventPaginator.page(1)
+    except EmptyPage:
+        eventList = eventPaginator.page(eventPaginator.num_pages)
+
     return render(request, 'events.html', {'events': eventList})
 
 def getAllLikes(request, event_id):
