@@ -57,3 +57,7 @@ def displayAll(request):
     for person in personList:
         html += str(person) + person.password + '\n'
     return HttpResponse(html)
+
+def displayUser(request):
+    currentPerson = request.META['CURRENT_PERSON']
+    return render(request, 'user.html', {'content': unicode(currentPerson)})

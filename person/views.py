@@ -4,12 +4,11 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from EntryTask import utils
 from event.models import Event, Like, Comment, Participation
-from event.views import getAllLikes, getAllComments, getAllParticipations
+from event import views as views_event
 
 # Create your views here.
 
 def like(request, event_id):
-    data = request.POST
 
     if 'CURRENT_PERSON' not in request.META:
         utils.createError('Login first.')
@@ -26,7 +25,7 @@ def like(request, event_id):
         like = Like(person=currentPerson, event=event)
         like.save()
 
-    return getAllLikes(request, event_id)
+    return views_event.getAllLikes(request, event_id)
 
 def comment(request, event_id):
     data = request.POST
@@ -48,10 +47,9 @@ def comment(request, event_id):
     cmt = Comment(person=currentPerson, event=event, content=data['content'])
     cmt.save()
 
-    return getAllComments(request, event_id)
+    return views_event.getAllComments(request, event_id)
 
 def participate(request, event_id):
-    data = request.POST
 
     if 'CURRENT_PERSON' not in request.META:
         utils.createError('Login first.')
@@ -68,4 +66,31 @@ def participate(request, event_id):
         pct = Participation(person=currentPerson, event=event)
         pct.save()
 
-    return getAllParticipations(request, event_id)
+    return views_event.getAllParticipations(request, event_id)
+
+def getAllLikes(request):
+    currentPerson = request.META['CURRENT_PERSON']
+    likeList = []
+    for like in Like.objects.all():
+        if like.person.id == currentPerson.id:
+            likeList.append(like)
+
+    return render(request, 'like.html', {'person': True, 'likes': likeList})
+
+def getAllComments(request):
+    currentPerson = request.META['CURRENT_PERSON']
+    commentList = []
+    for cmt in Comment.objects.all():
+        if cmt.person.id == currentPerson.id:
+            commentList.append(cmt)
+
+    return render(request, 'comment.html', {'person': True, 'comments': commentList})
+
+def getAllParticipations(request):
+    currentPerson = request.META['CURRENT_PERSON']
+    pctList = []
+    for pct in Participation.objects.all():
+        if pct.person.id == currentPerson.id:
+            pctList.append(pct)
+
+    return render(request, 'participation.html', {'person': True, 'participations': pctList})

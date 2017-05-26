@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^([0-9]+)/like/$', views.getAllLikes),
     url(r'^([0-9]+)/comment/$', views.getAllComments),
     url(r'^([0-9]+)/participate/$', views.getAllParticipations),
-    url(r'^([0-9]+)/act/', include('person.urls')),
+    url(r'^([0-9]+)/', include('person.urls')),
 ]

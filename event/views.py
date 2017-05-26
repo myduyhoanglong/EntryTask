@@ -6,7 +6,6 @@ from django.utils.dateparse import parse_datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from event.models import Event, Like, Comment, Participation, Channel
-from event.models import Event, Like, Comment, Participation
 from EntryTask import utils
 
 # Create your views here.

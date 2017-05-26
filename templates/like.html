@@ -1,9 +1,22 @@
 {% extends "main.html" %}
 
 {% block content %}
+
+{% if event %}
 <p>{{ likes|length }} &nbsp; likes</p>
 {% for like in likes %}
 {{ like.person.username }}, &nbsp;
 {% endfor %}
 <p><a href="/event/{{ event.id }}/act/like">Like</a></p>
+{% endif %}
+
+{% if person %}
+<p>Liked {{ likes|length }} event{{ likes|pluralize }}.</p>
+<table>
+{% for like in likes %}
+<p>{{ like.event.id }}.{{ like.event.title }}</p>
+{% endfor %}
+</table>
+{% endif %}
+
 {% endblock %}

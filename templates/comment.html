@@ -1,9 +1,21 @@
 {% extends "main.html" %}
 
 {% block content %}
+{% if event %}
 <p>{{ comments|length }} &nbsp; comments</p>
 {% for cmt in comments %}
 <p>{{ cmt.person.username }}: &nbsp; {{ cmt.content }}</p>
 {% endfor %}
 <p><a href="/form/comment/{{ event.id }}/">Comment</a></p>
+{% endif %}
+
+{% if person %}
+<p>{{ comments|length }} comment{{ comments|pluralize }}.</p>
+<table>
+{% for cmt in comments %}
+<p>{{ cmt.event.id }}.{{ cmt.event.title }}: {{ cmt.content }}</p>
+{% endfor %}
+</table>
+{% endif %}
+
 {% endblock %}

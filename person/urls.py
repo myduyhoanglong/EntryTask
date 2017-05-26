@@ -4,7 +4,11 @@ from person import views
 from EntryTask import utils
 
 urlpatterns = [
-    url(r'^like/$', views.like),
-    url(r'^comment/$', views.comment),
-    url(r'^participate/$', views.participate),
+    url(r'^$', utils.displayUser),
+    url(r'^act/like/$', views.like),
+    url(r'^act/comment/$', views.comment),
+    url(r'^act/participate/$', views.participate),
+    url(r'^like/$', views.getAllLikes),
+    url(r'^comment/$', views.getAllComments),
+    url(r'^participate/$', views.getAllParticipations),
 ]

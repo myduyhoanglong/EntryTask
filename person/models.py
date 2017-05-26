@@ -13,4 +13,4 @@ class Person(models.Model):
     role = models.CharField(max_length=10, choices=(('member', 'member'), ('admin', 'admin')), default='member')
 
     def __unicode__(self):
-        return '[' + self.username + '|' + self.email + ']'
+        return '[Username: ' + self.username + '|Email: ' + self.email + ']'

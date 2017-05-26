@@ -1,10 +1,22 @@
 {% extends "main.html" %}
 
 {% block content %}
+
+{% if event %}
 <p>{{ participations|length }} &nbsp; participants</p>
 {% for pct in participations %}
 {{ pct.person.username }}, &nbsp;
 {% endfor %}
-
 <p><a href="/event/{{ event.id }}/act/participate">Participate</a></p>
+{% endif %}
+
+{% if person %}
+<p>Participated {{ participations|length }} event{{ participations|pluralize }}.</p>
+<table>
+{% for pct in participations %}
+<p>{{ pct.event.id }}.{{ pct.event.title }}</p>
+{% endfor %}
+</table>
+{% endif %}
+
 {% endblock %}

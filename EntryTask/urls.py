@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 
-from utils import displayForm, displayAll, index
+from utils import displayForm, displayAll, index, displayUser
 
 urlpatterns = [
     url(r'^$', index),
@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'^form/([A-z]+)/([0-9]+)/$', displayForm),
     url(r'^auth/', include('authenticator.urls')),
     url(r'^event/', include('event.urls')),
-    url(r'^all/$', displayAll),
+    url(r'^user/', include('person.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
