@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.utils.dateparse import parse_datetime
+from django.utils.dateparse import parse_datetime, parse_date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from event.models import Event, Like, Comment, Participation, Channel
@@ -21,17 +21,22 @@ def getEvents(request):
     events = Event.objects.all()
     eventList = []
 
+    test = ""
     if title != '':
         events = events.filter(title__icontains=title)
     if location != '':
         events = events.filter(location__icontains=location)
 
     if start != '':
-        startDateTime = parse_datetime(start)
+        startDateTime = parse_date(start)
+        if startDateTime == None:
+            startDateTime = parse_datetime(start)
         if startDateTime != None:
             events = events.exclude(startDateTime__lt=startDateTime)
     if end != '':
-        endDateTime = parse_datetime(end)
+        endDateTime = parse_date(end)
+        if endDateTime == None:
+            endDateTime = parse_datetime(end)
         if endDateTime != None:
             events = events.exclude(endDateTime__gt=endDateTime)
 
@@ -44,30 +49,31 @@ def getEvents(request):
     else:
         eventList = list(events)
 
-    eventPaginator = Paginator(eventList, 10)
+    eventPaginator = Paginator(eventList, 5)
     page = request.GET.get('page', '')
-    eventList = []
+    events = []
     try:
-        eventList = eventPaginator.page(page)
+        events = eventPaginator.page(page)
     except PageNotAnInteger:
-        eventList = eventPaginator.page(1)
+        events = eventPaginator.page(1)
     except EmptyPage:
-        eventList = eventPaginator.page(eventPaginator.num_pages)
+        events = eventPaginator.page(eventPaginator.num_pages)
 
-    return render(request, 'events.html', {'events': eventList})
+    return render(request, 'events.html', {'events': events, 'test': test})
 
 def getAllEvents(request):
-    eventPaginator = Paginator(Event.objects.all(), 10)
+    eventList = Event.objects.all()
+    eventPaginator = Paginator(Event.objects.all(), 5)
     page = request.GET.get('page', '')
-    eventList = []
+    events = []
     try:
-        eventList = eventPaginator.page(page)
+        events = eventPaginator.page(page)
     except PageNotAnInteger:
-        eventList = eventPaginator.page(1)
+        events = eventPaginator.page(1)
     except EmptyPage:
-        eventList = eventPaginator.page(eventPaginator.num_pages)
+        events = eventPaginator.page(eventPaginator.num_pages)
 
-    return render(request, 'events.html', {'events': eventList})
+    return render(request, 'events.html', {'events': events})
 
 def getAllLikes(request, event_id):
     event = None
