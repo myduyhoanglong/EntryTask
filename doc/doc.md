@@ -2,18 +2,18 @@
 >	The website backend is designed using Django with 3 applications: person, event, authenticator.
 ## 1. Person
 1. Models: Necessary fields for user information
-*	Username: username is unique for entire database.
-*	Email: email is unique for entire database.
-*	Salt: for hashing password.
-* 	Password: only hashed password is stored.
-*	Role: member/admin. Default is member.
+	*	Username: username is unique for entire database.
+	*	Email: email is unique for entire database.
+	*	Salt: for hashing password.
+	* 	Password: only hashed password is stored.
+	*	Role: member/admin. Default is member.
 2. Views: operations on person
-*	like: the current user likes the event with given id.
-*	comment: the current user posts a comment in the event with given id.	
-* 	participate: the current user participate in the event with given id.
-*	getAllLikes: returns list of events liked by the current user.
-*	getAllComments: returns list of comments commented by the current user.
-*	getAllParticipation: returns list of events participated by the current user.
+	*	like: the current user likes the event with given id.
+	*	comment: the current user posts a comment in the event with given id.	
+	* 	participate: the current user participate in the event with given id.
+	*	getAllLikes: returns list of events liked by the current user.
+	*	getAllComments: returns list of comments commented by the current user.
+	*	getAllParticipation: returns list of events participated by the current user.
 
 ## 2. Event:
 1. Models: Fields for an event
