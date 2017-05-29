@@ -19,7 +19,7 @@
 
 ## 2. Event:
 1. Models: Fields for an event
-	1.1. Event: 
+	1. Event: 
 		*	Title: 
 		* 	Description:
 		*	Location: 
@@ -28,12 +28,12 @@
 		*	CreatedTime:
 		*	Photo:
 		*	Channel: one event can have multiple channels
-	1.2. Channel:
+	2. Channel:
 		* 	Name:
-	1.3. Like: links user to an event for a like
-	1.4. Comment: links user to an event for a comment
+	3. Like: links user to an event for a like
+	4. Comment: links user to an event for a comment
 		*	Content: content of the comment
-	1.5. Participation: links user to an event for a participation
+	5. Participation: links user to an event for a participation
 
 >	Event and Channel model is added to admin site so that administrator can create events and channels.
 
@@ -68,4 +68,4 @@
 	*	All forms are under /form/
 	* 	Authenticator is under /auth/
 	*	List of events is under /event/
-*	User page is under /user/
+	*	User page is under /user/
