@@ -69,3 +69,5 @@
 	* 	Authenticator is under /auth/
 	*	List of events is under /event/
 	*	User page is under /user/
+
+# Setup new server
