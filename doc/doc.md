@@ -71,3 +71,61 @@
 	*	User page is under /user/
 
 # Setup new server
+
+1. Install Python, Django, mySQL, nginx, uwsgi.
+2. Go to project directory which is EntryTask/. nginx_config file is stored here. 
+3. Run command: "uwsgi --socket :8001 --module EntryTask.wsgi" to start server.
+
+# Test performance
+
+1.	Tool: Apache Jmeter
+2.	Config:
+	*	Test go to login page and perform login action.
+	*	Ramp-Up period: 1 second
+3.	Results:
+	1. 200 threads:
+		1.	Go to login page:
+			*	Success: 200
+			*	Latest: 22.000s
+			*	Average: 8.975s
+			*	Deviation: 8.549s
+		2.	Perform login action:
+			*	Success: 200
+			*	Latest: 6.294s
+			*	Average: 5.485s
+			*	Deviation: 2.564s
+	2. 300 threads:
+		1.	Go to login page:
+			*	Success: 300
+			*	Latest: 31.322s
+			*	Average: 15.359s
+			*	Deviation: 12.692s
+		2.	Perform login action:
+			*	Success: 300
+			*	Latest: 12.258s
+			*	Average: 6.334s
+			*	Deviation: 3.886s
+	3. 350 threads:
+		1.	Go to login page:
+			*	Success: 313
+			*	Latest: 60.000s
+			*	Average: 20.760s
+			*	Deviation: 18.387s
+		2.	Perform login action:
+			*	Success: 313
+			*	Latest: 13.538s
+			*	Average: 7.900s
+			*	Deviation: 5.198s
+	4. 400 threads:
+		1.	Go to login page:
+			*	Success: 356
+			*	Latest: 60.000s
+			*	Average: 21.925s
+			*	Deviation: 19.320s
+		2.	Perform login action:
+			*	Success: 356
+			*	Latest: 6.624s
+			*	Average: 6.988s
+			*	Deviation: 6.221s
+
+>	Server fails to support up to 350 concurrent logins per second.
